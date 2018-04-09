@@ -1,1 +1,1 @@
-*.seed filter=lfs diff=lfs merge=lfs -text
+./*.seed filter=lfs diff=lfs merge=lfs -text
