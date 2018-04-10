@@ -21,7 +21,8 @@ Python scripts for processing and plotting the data to reproduce the figures in 
 temp_fig.py
 make_specfig.py
 find_events.py
+comp_fig.py
 ppsd_daynight_fig.py
 ```
 
-These are example python codes to use and process the data.  They are the source code for making figures 3, 4, 5, and 7, respectively.
+These are example python codes to use and process the data.  They are the source code for making figures 3, 4, 5, 6, and 7, respectively.
