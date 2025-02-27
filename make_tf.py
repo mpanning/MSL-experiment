@@ -1,6 +1,7 @@
 """
 Script to make figure comparing noisy and quiet period coherence and 
 transfer function
+Looks at stability of tf in amplitude/phase and outputs for later use
 """
 
 import numpy as np
@@ -17,12 +18,16 @@ import matplotlib.pyplot as plt
 
 deckfile = 'Deck_taurus_0274_20171005_000000.seed'
 reffile = 'Ref_taurus_2241_20171005_000000.seed'
-outfile = 'tf_coherence_comp.png'
+outfile = 'tf_fig.png'
 
-tstarts = [UTCDateTime(2017, 10, 7, 15), UTCDateTime(2017, 10, 7, 15),
-           UTCDateTime(2017, 10, 8, 3)]
-lengths = [int(86400*1.0), int(86400*0.5), int(86400*0.5)]
-colors = ['black', 'green', 'red']
+#tstarts = [UTCDateTime(2017, 10, 7, 15), UTCDateTime(2017, 10, 7, 15),
+#           UTCDateTime(2017, 10, 8, 3)]
+#lengths = [int(86400*1.0), int(86400*0.5), int(86400*0.5)]
+#colors = ['black', 'green', 'red']
+tstarts = [UTCDateTime(2017, 10, 8, 3), UTCDateTime(2017, 10, 7, 15),
+           UTCDateTime(2017, 10, 7, 15),]
+lengths = [int(86400*0.5), int(86400*0.5), int(86400*1.0)]
+colors = ['red', 'green', 'black']
 component = 'Z'
 
 # First pull out a long data segment with an extra hour on either end
@@ -55,9 +60,10 @@ st_bp.filter('bandpass', freqmin=f1, freqmax=f2, corners=2, zerophase=True)
 st_bp.plot(outfile=component + '_long_filtered.png')
 
 fig = plt.figure(figsize=(10, 10))
-ax1 = plt.subplot2grid((17,1), (0,0), rowspan=5)
-ax2 = plt.subplot2grid((17,1), (6,0), rowspan=5)
-ax3 = plt.subplot2grid((17,1), (12,0), rowspan=5)
+ax1 = plt.subplot2grid((23,1), (0,0), rowspan=5)
+ax2 = plt.subplot2grid((23,1), (6,0), rowspan=5)
+ax3 = plt.subplot2grid((23,1), (12,0), rowspan=5)
+ax4 = plt.subplot2grid((23,1), (18,0), rowspan=5)
 
 dt = st_bp[0].stats.delta
 npts = st_bp[0].stats.npts
@@ -151,6 +157,15 @@ for i, tstart in enumerate(tstarts):
     plt.ylim([0.01, 100.0])
     plt.yscale('log')
     plt.ylabel('Transfer magnitude')
+    plt.xlabel('Frequency (Hz)')
+
+    plt.sca(ax4)
+    plt.plot(freq[freq>0], np.angle(tf_average[freq>0]), color=colors[i])
+    plt.xlim([0.005, 10.0])
+    plt.xscale('log')
+    plt.ylim([-math.pi, math.pi])
+    #plt.yscale('log')
+    plt.ylabel('Transfer phase')
     plt.xlabel('Frequency (Hz)')
     
     
