@@ -99,7 +99,7 @@ for i, component in enumerate(components):
                                            np.log10(f_max), 
                                            scalogram.shape[0]))
 
-            m = ax.pcolormesh(x, y, np.log10((scalogram)), 
+            m = ax.pcolormesh(x, y, np.log10(np.abs(scalogram)), 
                               cmap='viridis',
                               vmin=0, vmax=3)
             ax.set_title(stn)
